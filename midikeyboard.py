@@ -1,4 +1,4 @@
-import ctypes
+﻿import ctypes
 from ctypes import wintypes
 import time
 import threading
@@ -7,13 +7,9 @@ import tkinter as tk
 from datetime import datetime
 import mido
 
-# ==========================================
-# 1. GERÇEK DONANIM GİRİŞİ (YAPI TAMİR EDİLDİ)
-# ==========================================
 user32 = ctypes.WinDLL('user32', use_last_error=True)
 wintypes.ULONG_PTR = wintypes.WPARAM
 
-# Eksiksiz yapı geri getirildi. Bunlar silinince Windows paketi reddediyor.
 class MOUSEINPUT(ctypes.Structure):
     _fields_ = (("dx",          wintypes.LONG),
                 ("dy",          wintypes.LONG),
@@ -55,9 +51,6 @@ def send_scancode(scancode, is_press):
     x.ki.dwExtraInfo = 0
     return user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(INPUT)) == 1
 
-# ==========================================
-# 2. VIRTUAL PIANO HARİTASI
-# ==========================================
 SCAN_CODES = {
     '1': 0x02, '2': 0x03, '3': 0x04, '4': 0x05, '5': 0x06, '6': 0x07, '7': 0x08, '8': 0x09, '9': 0x0A, '0': 0x0B,
     'q': 0x10, 'w': 0x11, 'e': 0x12, 'r': 0x13, 't': 0x14, 'y': 0x15, 'u': 0x16, 'i': 0x17, 'o': 0x18, 'p': 0x19,
@@ -79,9 +72,6 @@ NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 def get_note_name(midi_number):
     return f"{NOTE_NAMES[midi_number % 12]}{(midi_number // 12) - 1}"
 
-# ==========================================
-# 3. ARAYÜZ VE MOTOR
-# ==========================================
 class ProMidiBot:
     def __init__(self, root):
         self.root = root
@@ -92,13 +82,13 @@ class ProMidiBot:
         
         self.note_queue = queue.Queue()
 
-        tk.Label(root, text="🎹 SUSTAIN PİYANO MOTORU", bg="#1E1E1E", fg="#BB86FC", font=("Segoe UI", 14, "bold")).pack(pady=10)
+        tk.Label(root, text="ğŸ¹ SUSTAIN PÄ°YANO MOTORU", bg="#1E1E1E", fg="#BB86FC", font=("Segoe UI", 14, "bold")).pack(pady=10)
         self.status_lbl = tk.Label(root, text="USB Klavye Bekleniyor...", bg="#1E1E1E", fg="#FFB300", font=("Segoe UI", 11))
         self.status_lbl.pack(pady=5)
 
         log_frame = tk.Frame(root, bg="#121212")
         log_frame.pack(fill="both", expand=True, padx=15, pady=10)
-        tk.Label(log_frame, text="İŞLEM KAYDI", bg="#121212", fg="#888", font=("Segoe UI", 9, "bold")).pack(anchor="w", padx=5, pady=2)
+        tk.Label(log_frame, text="Ä°ÅLEM KAYDI", bg="#121212", fg="#888", font=("Segoe UI", 9, "bold")).pack(anchor="w", padx=5, pady=2)
         
         self.log_text = tk.Text(log_frame, bg="#000000", fg="#FFFFFF", font=("Consolas", 10), relief="flat", state="disabled")
         self.log_text.pack(fill="both", expand=True, padx=5, pady=5)
@@ -119,9 +109,9 @@ class ProMidiBot:
         self.log_text.insert("1.0", f"[{now}]  ", "time")
         
         if action_type == "press":
-            self.log_text.insert("1.0 + 12c", f"👇 BASILDI  : {note_name:<4} (Tuş: {char})\n", "press")
+            self.log_text.insert("1.0 + 12c", f"ğŸ‘‡ BASILDI  : {note_name:<4} (TuÅŸ: {char})\n", "press")
         else:
-            self.log_text.insert("1.0 + 12c", f"☝️ BIRAKILDI: {note_name:<4} (Tuş: {char})\n", "release")
+            self.log_text.insert("1.0 + 12c", f"â˜ï¸ BIRAKILDI: {note_name:<4} (TuÅŸ: {char})\n", "release")
 
         lines = self.log_text.get("1.0", "end-1c").split("\n")
         if len(lines) > 12:
@@ -163,7 +153,7 @@ class ProMidiBot:
             if device:
                 try:
                     with mido.open_input(device) as port:
-                        self.root.after(0, lambda: self.status_lbl.config(text=f"🟢 BAĞLANDI: {device}", fg="#00E676"))
+                        self.root.after(0, lambda: self.status_lbl.config(text=f"ğŸŸ¢ BAÄLANDI: {device}", fg="#00E676"))
                         
                         for msg in port:
                             if 36 <= getattr(msg, 'note', -1) <= 96:

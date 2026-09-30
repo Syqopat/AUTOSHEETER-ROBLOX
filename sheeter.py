@@ -1,4 +1,4 @@
-import ctypes
+﻿import ctypes
 import time
 import re
 import tkinter as tk
@@ -6,10 +6,8 @@ import threading
 import random
 from pynput import keyboard
 
-# --- DONANIM SEVİYESİ GİRİŞ SİSTEMİ (STABİLİZE EDİLDİ) ---
 SendInput = ctypes.windll.user32.SendInput
 
-# Tuş Kodları (ScanCodes)
 SCAN_CODES = {
     '1': 0x02, '2': 0x03, '3': 0x04, '4': 0x05, '5': 0x06, '6': 0x07, '7': 0x08, '8': 0x09, '9': 0x0A, '0': 0x0B,
     'q': 0x10, 'w': 0x11, 'e': 0x12, 'r': 0x13, 't': 0x14, 'y': 0x15, 'u': 0x16, 'i': 0x17, 'o': 0x18, 'p': 0x19,
@@ -26,7 +24,6 @@ class Input(ctypes.Structure):
     _fields_ = [("type", ctypes.c_ulong), ("ii", Input_I)]
 
 def send_key(code, is_press):
-    # KEYEVENTF_SCANCODE = 0x0008 | KEYEVENTF_KEYUP = 0x0002
     flags = 0x0008 
     if not is_press:
         flags |= 0x0002
@@ -57,10 +54,8 @@ class PianoBot:
         self.listener.start()
 
     def create_widgets(self):
-        # Header
         tk.Label(self.root, text="ROBLOX PIANO CONTROLLER", bg="#121212", fg="#BB86FC", font=("Segoe UI", 12, "bold")).pack(pady=10)
 
-        # Input
         main_frame = tk.Frame(self.root, bg="#121212", padx=20)
         main_frame.pack(fill="both", expand=True)
 
@@ -68,13 +63,11 @@ class PianoBot:
         self.input_area = tk.Text(main_frame, height=8, bg="#1E1E1E", fg="#FFF", relief="flat", font=("Consolas", 10))
         self.input_area.pack(fill="x", pady=5)
 
-        # Display (Vurgu Paneli)
         tk.Label(main_frame, text="PLAYBACK VIEW", bg="#121212", fg="#888").pack(anchor="w", pady=(10, 0))
         self.display = tk.Text(main_frame, height=10, bg="#000", fg="#0F0", state='disabled', relief="flat", font=("Consolas", 11))
         self.display.pack(fill="x", pady=5)
         self.display.tag_config("active", background="#BB86FC", foreground="#000")
 
-        # Controls
         btn_frame = tk.Frame(main_frame, bg="#121212")
         btn_frame.pack(fill="x", pady=10)
 
@@ -88,7 +81,6 @@ class PianoBot:
         self.speed_slider.set(0.15)
         self.speed_slider.pack(fill="x", pady=10)
 
-        # Keybinds
         kb_frame = tk.Frame(main_frame, bg="#1E1E1E", pady=10, padx=10)
         kb_frame.pack(fill="x", pady=10)
 
@@ -121,7 +113,6 @@ class PianoBot:
 
     def load_sheet(self):
         content = self.input_area.get("1.0", tk.END)
-        # TOKEN AYRIŞTIRMA (Görsel hata çözümü için boşlukları da token yapıyoruz)
         self.all_elements = re.findall(r'\[.*?\]|.|\s', content)
         self.tokens = [t for t in self.all_elements if t.strip() != ""] # Sadece notalar
         self.index = 0
@@ -139,14 +130,11 @@ class PianoBot:
         if self.index < len(self.tokens):
             target = self.tokens[self.index]
             
-            # Görsel Hatayı Çözen Yeni Arama Algoritması:
-            # Baştan itibaren kaçıncı notada olduğumuzu sayarak bulur
             search_index = 0
             found_count = 0
             
             start_pos = "1.0"
             while found_count <= self.index:
-                # regex=True kullanarak köşeli parantez gibi özel karakterleri tam eşleştiriyoruz
                 found_pos = self.display.search(target, start_pos, stopindex=tk.END, exact=True)
                 if not found_pos: break
                 
@@ -157,8 +145,6 @@ class PianoBot:
                     break
                 
                 start_pos = f"{found_pos} + {len(target)}c"
-                # Bu token'ın gerçekten bir nota olup olmadığını kontrol et (regex ile değil)
-                # Basit bir sayaç kullanıyoruz
                 found_count += 1 
                 
         self.display.config(state='disabled')
@@ -175,7 +161,7 @@ class PianoBot:
                 code = SCAN_CODES.get(c.lower())
                 if code: send_key(code, True)
             
-            time.sleep(0.07) # Roblox için güvenli basılı tutma süresi
+            time.sleep(0.07) # Roblox iÃ§in gÃ¼venli basÄ±lÄ± tutma sÃ¼resi
             
             for c in chars:
                 code = SCAN_CODES.get(c.lower())
