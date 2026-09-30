@@ -1,31 +1,31 @@
 # 🎹 AUTOSHEETER-ROBLOX (Roblox Piano Sheet Player)
 
-![Status](https://img.shields.io/badge/Durum-%C3%87al%C4%B1%C5%9F%C4%B1yor%20%2F%20Working-brightgreen?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Working%20%2F%20Stable-brightgreen?style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge)
 ![Platform](https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge)
 ![CI](https://img.shields.io/badge/CI%2FCD-Active-success?style=for-the-badge)
 
-**AUTOSHEETER-ROBLOX**, Roblox oyun içi piyanoları için geliştirilmiş otomatik nota çalma ve makro kontrol yazılımıdır. Tkinter grafik arayüzü ve düşük seviye tuş giriş simülasyonu sunar.
+**AUTOSHEETER-ROBLOX** is an automated sheet music macro playback utility designed for virtual piano games in Roblox. It features a Tkinter GUI and low-level keypress simulation.
 
 ---
 
-## 📌 Proje Durumu (Project Status)
+## 📌 Project Status
 
-- **Durum:** 🟢 **Çalışıyor (Working / Stable)**
-- **Test & CI/CD:** GitHub Actions syntax denetimi aktif.
-- **Konfigürasyon:** `config.json` ile varsayılan gecikme süreleri ve kısayol tuşları özelleştirilebilir.
-
----
-
-## 🚀 Özellikler
-
-- **Nota Ayrıştırma:** Parantezli akorları ve tekil notaları otomatik ayrıştırır.
-- **Canlı Vurgu Paneli:** O an çalınan notayı ekranda vurgular.
-- **Otomatik / Adımlı Çalma:** F1 ve Ok tuşları veya otomatik mod ile ritim kontrolü sağlar.
+- **Status:** 🟢 **Working / Stable**
+- **CI/CD:** Automated GitHub Actions syntax verification enabled.
+- **Configuration:** Customizable delay times and keybinds via `config.json`.
 
 ---
 
-## 🛠️ Kurulum ve Kullanım
+## 🚀 Key Features
+
+- **Sheet Parser:** Automatically parses bracketed chords, delays, and individual notes.
+- **Active Visual Highlight Panel:** Highlights the currently played note in real-time.
+- **Auto / Step Playback:** Toggle automatic loop mode or trigger steps manually via bindable hotkeys.
+
+---
+
+## 🛠️ Installation & Usage
 
 ```bash
 pip install -r requirements.txt
@@ -34,7 +34,7 @@ python sheeter.py
 
 ---
 
-## ⚙️ Yapılandırma (`config.json`)
+## ⚙️ Configuration (`config.json`)
 
 ```json
 {
@@ -47,6 +47,6 @@ python sheeter.py
 
 ---
 
-## 📄 Lisans
+## 📄 License
 
-MIT License
+Licensed under the MIT License.
